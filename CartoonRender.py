@@ -7,12 +7,14 @@ def 엣지_마스크_생성(image):
     gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     # 2. 노이즈 감소: Median Blur 적용 (커널 크기 7)
     gray = cv2.medianBlur(gray, 7)
-    # 3. Adaptive Threshold 적용 (blockSize=5, C=7)
+    # 3. Adaptive Threshold 적용 (blockSize와 C 값을 변경하여 선을 두껍게 생성)
+    #    blockSize를 7로 늘리고, C 값을 5로 낮추면 평균값에서 빼주는 값이 작아져 더 많은 영역이 255로 채워지게 됩니다.
     edges = cv2.adaptiveThreshold(gray, 255,
                                   cv2.ADAPTIVE_THRESH_MEAN_C,
                                   cv2.THRESH_BINARY,
-                                  5, 7)
+                                  7, 5)
     return edges
+
 
 def 컬러_팔레트_축소(image, k):
     # 이미지 데이터를 float32로 변환 후 (Nx3) 행렬로 재구성
